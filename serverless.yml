@@ -1,0 +1,72 @@
+# NOTE: update this with your service name
+service: travel-app-api
+
+# Create an optimized package for our functions 
+package:
+  individually: true
+
+plugins:
+  - serverless-bundle # Package our functions with Webpack
+  - serverless-offline
+  - serverless-dotenv-plugin # Load .env as environment variables
+
+custom:
+  # Our stage is based on what is passed in when running serverless
+  # commands. Or fallsback to what we have set in the provider section.
+  stage: ${opt:stage, self:provider.stage}
+  # Set the table name here so we can use it while testing locally
+  tripsTableName: ${self:custom.stage}-trips
+  listsTableName: ${self:custom.stage}-lists
+  tasksTableName: ${self:custom.stage}-tasks
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-1
+
+  environment:
+    tripsTableName: ${self:custom.tripsTableName}
+    listsTableName: ${self:custom.listsTableName}
+    tasksTableName: ${self:custom.tasksTableName}
+    # sampleEnvVar: ${env:SAMPLE_ENV_VAR}
+
+  # Configure access rights for the LAMBDA application
+  # i.e. access dynamo DB
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:DescribeTable
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      # Restrict our IAM role permissions to
+      # the specific table for the stage
+      Resource: 
+        # this list specifies to get the ARN for this specific table
+        - "Fn::GetAtt": [ TripsTable, Arn ] 
+        - "Fn::GetAtt": [ ListsTable, Arn ]  
+        - "Fn::GetAtt": [ ItemsTable, Arn ]  
+
+# Create our resources with separate CloudFormation templates
+resources:
+  # API Gateway Errors
+  - ${file(resources/api-gateway-errors.yml)}
+  # DynamoDB
+  - ${file(resources/dynamodb-table.yml)}
+  # S3 Bucket
+  - ${file(resources/s3-bucket.yml)}
+  # Cognito
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - http:
+          path: hello
+          method: get
