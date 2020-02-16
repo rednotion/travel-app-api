@@ -20,11 +20,11 @@ export async function create(event, context) {
     // - 'createdAt': current Unix timestamp
     Item: {
       userId: event.requestContext.idsentity.cognitoIdentityId,
-      colId: uuid.v1(), 
+      colId: uuid.v1(),
       // Let us not differentiate between WISHLIST and COLUMN now
       // when we create the days, we can return the UUID of each column iteratively
       // and then add it to the 'create-trip' API body
-      type: data.type, 
+      type: data.type,
       name: data.name,
       startTime: data.startTime,
       endTime: data.endTime,
@@ -62,7 +62,7 @@ export async function update(event, context) {
       ":type": data.type || null,
       ":taskIds": data.taskIds || null,
       ":startTime": data.startTime || null,
-      ":endTime": data.endTime || null, 
+      ":endTime": data.endTime || null,
       ":notes": data.notes || null,
       ":lodging": data.lodging || null,
     },

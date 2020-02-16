@@ -21,7 +21,7 @@ export async function create_location(event, context) {
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       taskId: "place_"+ uuid.v1(), // all created places will be NON-drives
-      type: "location", 
+      type: "location",
       name: data.name,
       duration: data.duration,
       notes: data.notes,
@@ -57,7 +57,7 @@ export async function create_drive(event, context) {
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       taskId: "drive_"+ uuid.v1(), // all created places will be NON-drives
-      type: "drive", 
+      type: "drive",
       name: null,
       duration: data.duration,
       notes: null,
