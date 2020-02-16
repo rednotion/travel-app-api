@@ -55,9 +55,12 @@ export async function update(event, context) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET name = :name", //, startDate = :startDate, endDate = :endDate, startTime = :startTime, endTime = :endTime, location = :location, notes = :notes, colIds = :colIds, wishlistIds = :wishlistIds",
+    UpdateExpression: "SET #name = :name", //, startDate = :startDate, endDate = :endDate, startTime = :startTime, endTime = :endTime, location = :location, notes = :notes, colIds = :colIds, wishlistIds = :wishlistIds",
+    ExpressionAttributeNames: {
+      "#name": "name",
+    },
     ExpressionAttributeValues: {
-      ":name": data.name || null,
+      ":name": {"S": data.name || null},
       // ":startDate": data.startDate || null,
       // ":startTime": data.startTime || null,
       // ":endDate": data.endDate || null,
@@ -74,7 +77,7 @@ export async function update(event, context) {
   };
 
   try {
-    await dynamoDbLib.call("update", params);
+    await dynamoDbLib.call("updateItem", params);
     return success({ status: true });
   } catch (e) {
     return failure({ status: false });
