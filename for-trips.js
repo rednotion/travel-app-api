@@ -55,17 +55,17 @@ export async function update(event, context) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET name = :name, startDate = :startDate, endDate = :endDate, startTime = :startTime, endTime = :endTime, location = :location, notes = :notes, colIds = :colIds, wishlistIds = :wishlistIds",
+    UpdateExpression: "SET name = :name", //, startDate = :startDate, endDate = :endDate, startTime = :startTime, endTime = :endTime, location = :location, notes = :notes, colIds = :colIds, wishlistIds = :wishlistIds",
     ExpressionAttributeValues: {
       ":name": data.name || null,
-      ":startDate": data.startDate || null,
-      ":startTime": data.startTime || null,
-      ":endDate": data.endDate || null,
-      ":endTime": data.endTime || null,
-      ":location": data.location || null,
-      ":notes": data.notes || null,
-      ":colIds": data.colIds || null,
-      ":wishlistIds": data.wishlistIds || null
+      // ":startDate": data.startDate || null,
+      // ":startTime": data.startTime || null,
+      // ":endDate": data.endDate || null,
+      // ":endTime": data.endTime || null,
+      // ":location": data.location || null,
+      // ":notes": data.notes || null,
+      // ":colIds": data.colIds || null,
+      // ":wishlistIds": data.wishlistIds || null
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,
     // where ALL_NEW returns all attributes of the item after the update; you

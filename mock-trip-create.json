@@ -1,0 +1,8 @@
+{
+  "body": "{\"name\":\"To be dited\", \"startDate\": \"12-12-2019\", \"endDate\": \"20-12-2019\", \"startTime\": 9, \"endTime\": 16, \"location\": \"United States of America\", \"notes\": \"Road trip in the East\", \"colIds\": [\"25247d10-509c-11ea-9333-2fd48222510e\", \"25247d10-509c-11ea-9333-2fd48222510e\", \"b5428fe0-509c-11ea-9333-2fd48222510e\", \"7cb960c0-509e-11ea-8675-8b18ccc6adc3\"], \"wishlistIds\": [\"4c9305e0-509e-11ea-8675-8b18ccc6adc3\"]}",
+  "requestContext": {
+    "identity": {
+      "cognitoIdentityId": "us-east-1:2e858097-7964-4e78-aec9-679d9d00ddba"
+    }
+  }
+}
