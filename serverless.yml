@@ -74,7 +74,7 @@ functions:
           cors: true
           authorizer: aws_iam
   get-trip:
-    handle: for-trips.get
+    handler: for-trips.get
     events:
       - http:
           path: trips/{tripId}
@@ -82,7 +82,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getall-trip:
-    handle: for-trips.getall
+    handler: for-trips.getall
     events:
       - http:
           path: trips
@@ -90,7 +90,7 @@ functions:
           cors: true
           authorizer: aws_iam
   update-trip:
-    handle: for-trips.update
+    handler: for-trips.update
     events:
       - http:
           path: trips/{tripId}
@@ -98,7 +98,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-trip:
-    handle: for-trips.delete
+    handler: for-trips.delete
     events:
       - http:
           path: trips/{tripId}
@@ -115,7 +115,7 @@ functions:
           cors: true
           authorizer: aws_iam
   get-col:
-    handle: for-cols.get
+    handler: for-cols.get
     events:
       - http:
           path: cols/{colId}
@@ -123,7 +123,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getall-col:
-    handle: for-cols.getall
+    handler: for-cols.getall
     events:
       - http:
           path: cols
@@ -131,7 +131,7 @@ functions:
           cors: true
           authorizer: aws_iam
   update-col:
-    handle: for-cols.update
+    handler: for-cols.update
     events:
       - http:
           path: cols/{colId}
@@ -139,7 +139,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-col:
-    handle: for-cols.delete
+    handler: for-cols.delete
     events:
       - http:
           path: cols/{colId}
@@ -164,7 +164,7 @@ functions:
           cors: true
           authorizer: aws_iam
   get-task:
-    handle: for-tasks.get
+    handler: for-tasks.get
     events:
       - http:
           path: tasks/{taskId}
@@ -172,7 +172,7 @@ functions:
           cors: true
           authorizer: aws_iam
   getall-task:
-    handle: for-tasks.getall
+    handler: for-tasks.getall
     events:
       - http:
           path: tasks
@@ -180,7 +180,7 @@ functions:
           cors: true
           authorizer: aws_iam
   update-task:
-    handle: for-tasks.update
+    handler: for-tasks.update
     events:
       - http:
           path: tasks/{taskId}
@@ -188,7 +188,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-task:
-    handle: for-tasks.delete
+    handler: for-tasks.delete
     events:
       - http:
           path: tasks/{taskId}
