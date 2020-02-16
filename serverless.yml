@@ -16,7 +16,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   # Set the table name here so we can use it while testing locally
   tripsTableName: ${self:custom.stage}-trips
-  listsTableName: ${self:custom.stage}-lists
+  colsTableName: ${self:custom.stage}-lists
   tasksTableName: ${self:custom.stage}-tasks
 
 provider:
@@ -27,7 +27,7 @@ provider:
 
   environment:
     tripsTableName: ${self:custom.tripsTableName}
-    listsTableName: ${self:custom.listsTableName}
+    colsTableName: ${self:custom.colsTableName}
     tasksTableName: ${self:custom.tasksTableName}
     # sampleEnvVar: ${env:SAMPLE_ENV_VAR}
 
@@ -48,7 +48,7 @@ provider:
       Resource: 
         # this list specifies to get the ARN for this specific table
         - "Fn::GetAtt": [ TripsTable, Arn ] 
-        - "Fn::GetAtt": [ ListsTable, Arn ]  
+        - "Fn::GetAtt": [ colsTable, Arn ]  
         - "Fn::GetAtt": [ ItemsTable, Arn ]  
 
 # Create our resources with separate CloudFormation templates
