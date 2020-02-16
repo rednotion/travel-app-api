@@ -15,7 +15,7 @@ Resources:
           KeyType: RANGE
       BillingMode: PAY_PER_REQUEST
 
-  colsTable:
+  ColsTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: ${self:custom.colsTableName}
