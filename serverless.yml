@@ -77,7 +77,7 @@ functions:
     handler: for-trips.get
     events:
       - http:
-          path: trips/{id}
+          path: trips/{tripId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -93,7 +93,7 @@ functions:
     handler: for-trips.update
     events:
       - http:
-          path: trips/{id}
+          path: trips/{tripId}
           method: put
           cors: true
           authorizer: aws_iam
@@ -101,7 +101,7 @@ functions:
     handler: for-trips.delete_function
     events:
       - http:
-          path: trips/{id}
+          path: trips/{tripId}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -118,7 +118,7 @@ functions:
     handler: for-cols.get
     events:
       - http:
-          path: cols/{id}
+          path: cols/{colId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -134,7 +134,7 @@ functions:
     handler: for-cols.update
     events:
       - http:
-          path: cols/{id}
+          path: cols/{colId}
           method: put
           cors: true
           authorizer: aws_iam
@@ -142,7 +142,7 @@ functions:
     handler: for-cols.delete_function
     events:
       - http:
-          path: cols/{id}
+          path: cols/{colId}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -167,7 +167,7 @@ functions:
     handler: for-tasks.get
     events:
       - http:
-          path: tasks/{id}
+          path: tasks/{taskId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -183,7 +183,7 @@ functions:
     handler: for-tasks.update
     events:
       - http:
-          path: tasks/{id}
+          path: tasks/{taskId}
           method: put
           cors: true
           authorizer: aws_iam
@@ -191,7 +191,7 @@ functions:
     handler: for-tasks.delete_function
     events:
       - http:
-          path: tasks/{id}
+          path: tasks/{taskId}
           method: delete
           cors: true
           authorizer: aws_iam

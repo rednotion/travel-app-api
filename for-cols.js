@@ -52,7 +52,7 @@ export async function update(event, context) {
     // - 'noteId': path parameter
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      colId: event.pathParameters.id
+      colId: event.pathParameters.colId
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
@@ -88,7 +88,7 @@ export async function get(event, context) {
     // - 'noteId': path parameter
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      colId: event.pathParameters.id
+      colId: event.pathParameters.colId
     }
   };
 
@@ -141,7 +141,7 @@ export async function delete_function(event, context) {
     // - 'noteId': path parameter
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
-      colId: event.pathParameters.id
+      colId: event.pathParameters.colId
     }
   };
 
