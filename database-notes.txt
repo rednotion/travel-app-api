@@ -1,0 +1,26 @@
+user | tripId 
+- tripName
+- tripStart
+- tripEnd
+- tripLocation
+- tripStartTime
+- tripEndTime
+- colIds
+- wishlist
+
+
+user | itemId
+- type: location / drive
+- description
+- duration
+- notes
+- attachment
+
+user | colId
+- type: day / wishlist
+- description
+- startTime
+- endTime
+- taskIds
+- notes
+- lodging (dictionary) or Id
