@@ -64,9 +64,181 @@ resources:
   - ${file(resources/cognito-identity-pool.yml)}
 
 functions:
-  hello:
-    handler: handler.hello
+  # trips
+  create-trip:
+    handler: for-trips.create
     events:
       - http:
-          path: hello
+          path: trips
+          method: post
+          cors: true
+          authorizer: aws_iam
+  get-trip:
+    handle: for-trips.get
+    events:
+      - http:
+          path: trips
+          method: get/{tripId}
+          cors: true
+          authorizer: aws_iam
+  getall-trip:
+    handle: for-trips.getall
+    events:
+      - http:
+          path: trips
           method: get
+          cors: true
+          authorizer: aws_iam
+  update-trip:
+    handle: for-trips.update
+    events:
+      - http:
+          path: trips/{tripId}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  delete-trip:
+    handle: for-trips.delete
+    events:
+      - http:
+          path: trips/{tripId}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+  # cols
+  create-col:
+    handler: for-cols.create
+    events:
+      - http:
+          path: cols
+          method: post
+          cors: true
+          authorizer: aws_iam
+  get-col:
+    handle: for-cols.get
+    events:
+      - http:
+          path: cols
+          method: get/{colId}
+          cors: true
+          authorizer: aws_iam
+  getall-col:
+    handle: for-cols.getall
+    events:
+      - http:
+          path: cols
+          method: get
+          cors: true
+          authorizer: aws_iam
+  update-col:
+    handle: for-cols.update
+    events:
+      - http:
+          path: cols/{colId}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  delete-col:
+    handle: for-cols.delete
+    events:
+      - http:
+          path: cols/{colId}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+  # tasks
+  create-task-location:
+    handler: for-tasks.create_location
+    events:
+      - http:
+          path: tasks
+          method: post
+          cors: true
+          authorizer: aws_iam
+  create-task-drive:
+    handler: for-tasks.drive
+    events:
+      - http:
+          path: tasks
+          method: post
+          cors: true
+          authorizer: aws_iam
+  get-task:
+    handle: for-tasks.get
+    events:
+      - http:
+          path: tasks
+          method: get/{taskId}
+          cors: true
+          authorizer: aws_iam
+  getall-task:
+    handle: for-tasks.getall
+    events:
+      - http:
+          path: tasks
+          method: get
+          cors: true
+          authorizer: aws_iam
+  update-task:
+    handle: for-tasks.update
+    events:
+      - http:
+          path: tasks/{taskId}
+          method: get
+          cors: true
+          authorizer: aws_iam
+  delete-task:
+    handle: for-tasks.delete
+    events:
+      - http:
+          path: tasks/{taskId}
+          method: delete
+          cors: true
+          authorizer: aws_iam
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
