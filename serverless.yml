@@ -48,7 +48,7 @@ provider:
       Resource: 
         # this list specifies to get the ARN for this specific table
         - "Fn::GetAtt": [ TripsTable, Arn ] 
-        - "Fn::GetAtt": [ colsTable, Arn ]  
+        - "Fn::GetAtt": [ ColsTable, Arn ]  
         - "Fn::GetAtt": [ ItemsTable, Arn ]  
 
 # Create our resources with separate CloudFormation templates

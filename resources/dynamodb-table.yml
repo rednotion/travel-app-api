@@ -18,7 +18,7 @@ Resources:
   colsTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: ${self:custom.listsTableName}
+      TableName: ${self:custom.colsTableName}
       AttributeDefinitions:
         - AttributeName: userId
           AttributeType: S
