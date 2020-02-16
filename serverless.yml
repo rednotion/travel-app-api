@@ -98,7 +98,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-trip:
-    handler: for-trips.delete
+    handler: for-trips.delete_function
     events:
       - http:
           path: trips/{tripId}
@@ -139,7 +139,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-col:
-    handler: for-cols.delete
+    handler: for-cols.delete_function
     events:
       - http:
           path: cols/{colId}
@@ -188,7 +188,7 @@ functions:
           cors: true
           authorizer: aws_iam
   delete-task:
-    handler: for-tasks.delete
+    handler: for-tasks.delete_function
     events:
       - http:
           path: tasks/{taskId}

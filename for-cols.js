@@ -133,7 +133,7 @@ export async function getall(event, context) {
 }
 
 
-export async function delete(event, context) {
+export async function delete_function(event, context) {
   const params = {
     TableName: process.env.colsTableName,
     // 'Key' defines the partition key and sort key of the item to be retrieved
