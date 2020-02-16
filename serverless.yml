@@ -77,8 +77,8 @@ functions:
     handle: for-trips.get
     events:
       - http:
-          path: trips
-          method: get/{tripId}
+          path: trips/{tripId}
+          method: get
           cors: true
           authorizer: aws_iam
   getall-trip:
@@ -94,7 +94,7 @@ functions:
     events:
       - http:
           path: trips/{tripId}
-          method: get
+          method: put
           cors: true
           authorizer: aws_iam
   delete-trip:
@@ -118,8 +118,8 @@ functions:
     handle: for-cols.get
     events:
       - http:
-          path: cols
-          method: get/{colId}
+          path: cols/{colId}
+          method: get
           cors: true
           authorizer: aws_iam
   getall-col:
@@ -135,7 +135,7 @@ functions:
     events:
       - http:
           path: cols/{colId}
-          method: get
+          method: put
           cors: true
           authorizer: aws_iam
   delete-col:
@@ -167,8 +167,8 @@ functions:
     handle: for-tasks.get
     events:
       - http:
-          path: tasks
-          method: get/{taskId}
+          path: tasks/{taskId}
+          method: get
           cors: true
           authorizer: aws_iam
   getall-task:
@@ -184,7 +184,7 @@ functions:
     events:
       - http:
           path: tasks/{taskId}
-          method: get
+          method: put
           cors: true
           authorizer: aws_iam
   delete-task:
