@@ -19,7 +19,7 @@ export async function create(event, context) {
     // - 'attachment': parsed from request body
     // - 'createdAt': current Unix timestamp
     Item: {
-      userId: event.requestContext.idsentity.cognitoIdentityId,
+      userId: event.requestContext.identity.cognitoIdentityId,
       colId: uuid.v1(),
       // Let us not differentiate between WISHLIST and COLUMN now
       // when we create the days, we can return the UUID of each column iteratively

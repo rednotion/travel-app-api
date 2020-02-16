@@ -151,7 +151,7 @@ functions:
     handler: for-tasks.create_location
     events:
       - http:
-          path: tasks
+          path: tasks/location
           method: post
           cors: true
           authorizer: aws_iam
@@ -159,7 +159,7 @@ functions:
     handler: for-tasks.drive
     events:
       - http:
-          path: tasks
+          path: tasks/drive
           method: post
           cors: true
           authorizer: aws_iam
