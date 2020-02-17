@@ -8,6 +8,7 @@ export async function create(event, context) {
   const params = {
     TableName: process.env.colsTableName,
     Item: {
+      tripId: data.tripId,
       userId: event.requestContext.identity.cognitoIdentityId,
       colId: uuid.v1(),
       // Let us not differentiate between WISHLIST and COLUMN now
@@ -40,13 +41,14 @@ export async function update(event, context) {
     // - 'userId': Identity Pool identity id of the authenticated user
     // - 'noteId': path parameter
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       colId: event.pathParameters.colId
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET colName = :colName, colType = :colType, taskIds = :taskIds, colStartTime = :colStartTime, colEndTime = :colEndTime, colNotes = :colNotes, colLodging = :colLodging",
+    UpdateExpression: "SET tripId = :tripId, colName = :colName, colType = :colType, taskIds = :taskIds, colStartTime = :colStartTime, colEndTime = :colEndTime, colNotes = :colNotes, colLodging = :colLodging",
     ExpressionAttributeValues: {
+      ":tripId": data.tripId || null,
       ":colName": data.colName || null,
       ":colType": data.colType || null,
       ":taskIds": data.taskIds || null,
@@ -69,11 +71,36 @@ export async function update(event, context) {
   }
 }
 
+export async function append_task(event, context) {
+  const data = JSON.parse(event.body);
+  const params = {
+    TableName: process.env.colsTableName,
+    Key: {
+      tripId: event.pathParameters.tripId,
+      colId: event.pathParameters.colId
+      },
+    UpdateExpression: "SET taskIds = list_append(if_not_exists(taskIds, :empty_list), :taskId)",
+    ExpressionAttributeValues: {
+      ':taskId': [data.taskId],
+      ':empty_list': []
+    },
+    ReturnValues: "ALL_NEW"
+  };
+
+  try {
+    await dynamoDbLib.call("update", params);
+    return success({ status: true });
+  } catch (e) {
+    return failure({ status: false, error: e });
+  }
+}
+
+
 export async function get(event, context) {
   const params = {
     TableName: process.env.colsTableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       colId: event.pathParameters.colId
     }
   };
@@ -94,9 +121,9 @@ export async function get(event, context) {
 export async function getall(event, context) {
     const params = {
         TableName: process.env.colsTableName,
-        KeyConditionExpression: "userId = :userId",
+        KeyConditionExpression: "tripId = :tripId",
         ExpressionAttributeValues: {
-            ":userId": event.requestContext.identity.cognitoIdentityId
+            ":tripId": event.pathParameters.tripId,,
         }
     };
 
@@ -117,7 +144,7 @@ export async function delete_function(event, context) {
   const params = {
     TableName: process.env.colsTableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       colId: event.pathParameters.colId
     }
   };

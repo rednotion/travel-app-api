@@ -20,12 +20,12 @@ Resources:
     Properties:
       TableName: ${self:custom.colsTableName}
       AttributeDefinitions:
-        - AttributeName: userId
+        - AttributeName: tripId
           AttributeType: S
         - AttributeName: colId
           AttributeType: S
       KeySchema:
-        - AttributeName: userId
+        - AttributeName: tripId
           KeyType: HASH
         - AttributeName: colId
           KeyType: RANGE
@@ -37,12 +37,12 @@ Resources:
     Properties:
       TableName: ${self:custom.tasksTableName}
       AttributeDefinitions:
-        - AttributeName: userId
+        - AttributeName: tripId
           AttributeType: S
         - AttributeName: taskId
           AttributeType: S
       KeySchema:
-        - AttributeName: userId
+        - AttributeName: tripId
           KeyType: HASH
         - AttributeName: taskId
           KeyType: RANGE

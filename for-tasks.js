@@ -11,8 +11,9 @@ export async function create_location(event, context) {
   const params = {
     TableName: process.env.tasksTableName,
     Item: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: data.tripId,
       taskId: "place_"+ uuid.v1(), // all created places will be NON-drives
+      userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "location",
       taskName: data.taskName,
       taskDuration: data.taskDuration,
@@ -26,9 +27,10 @@ export async function create_location(event, context) {
     await dynamoDbLib.call("put", params);
     return success(params.Item);
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false , error : e});
   }
 }
+
 
 export async function create_drive(event, context) {
   const data = JSON.parse(event.body);
@@ -36,8 +38,9 @@ export async function create_drive(event, context) {
   const params = {
     TableName: process.env.tasksTableName,
     Item: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: "tripId",
       taskId: "drive_"+ uuid.v1(), // all created places will be NON-drives
+      userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "drive",
       taskName: null,
       taskDuration: data.taskDuration,
@@ -51,27 +54,28 @@ export async function create_drive(event, context) {
     await dynamoDbLib.call("put", params);
     return success(params.Item);
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false , error : e});
   }
 }
+
 
 export async function update(event, context) {
   const data = JSON.parse(event.body);
   const params = {
     TableName: process.env.tasksTableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       taskId: event.pathParameters.taskId
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
     UpdateExpression: "SET taskName = :taskName, taskType = :taskType, taskDuration = :taskDuration, taskNotes = :taskNotes, taskAttachment = :taskAttachment",
     ExpressionAttributeValues: {
-      ":taskName": data.taskName || null,
-      ":taskType": data.taskType || null,
-      ":taskDuration": data.taskDuration || null,
-      ":taskNotes": data.taskNotes || null,
-      ":taskAttachment": data.taskAttachment || null,
+      ":taskName": data.taskName,
+      ":taskType": data.taskType,
+      ":taskDuration": data.taskDuration,
+      ":taskNotes": data.taskNotes,
+      ":taskAttachment": data.taskAttachment,
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,
     // where ALL_NEW returns all attributes of the item after the update; you
@@ -83,7 +87,7 @@ export async function update(event, context) {
     await dynamoDbLib.call("update", params);
     return success({ status: true });
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false , error : e });
   }
 }
 
@@ -91,7 +95,7 @@ export async function get(event, context) {
   const params = {
     TableName: process.env.tasksTableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       taskId: event.pathParameters.taskId
     }
   };
@@ -105,16 +109,16 @@ export async function get(event, context) {
       return failure({ status: false, error: "Item not found." });
     }
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false  , error : e});
   }
 }
 
 export async function getall(event, context) {
     const params = {
         TableName: process.env.tasksTableName,
-        KeyConditionExpression: "userId = :userId",
+        KeyConditionExpression: "tripId = :tripId",
         ExpressionAttributeValues: {
-            ":userId": event.requestContext.identity.cognitoIdentityId
+            ":tripId": event.pathParameters.tripId
         }
     };
 
@@ -126,7 +130,7 @@ export async function getall(event, context) {
             return failure({ status: false, error: "User not found." });
         }
     } catch (e) {
-        return failure({ status: false });
+        return failure({ status: false , error : e});
     }
 }
 
@@ -135,7 +139,7 @@ export async function delete_function(event, context) {
   const params = {
     TableName: process.env.tasksTableName,
     Key: {
-      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId,
       taskId: event.pathParameters.taskId
     }
   };
@@ -144,6 +148,6 @@ export async function delete_function(event, context) {
     await dynamoDbLib.call("delete", params);
     return success({ status: true });
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false, error : e });
   }
 }

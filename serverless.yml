@@ -16,7 +16,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   # Set the table name here so we can use it while testing locally
   tripsTableName: ${self:custom.stage}-trips
-  colsTableName: ${self:custom.stage}-lists
+  colsTableName: ${self:custom.stage}-cols
   tasksTableName: ${self:custom.stage}-tasks
 
 provider:
@@ -97,6 +97,14 @@ functions:
           method: put
           cors: true
           authorizer: aws_iam
+  append-task-trip:
+    handler: for-trips.append_task
+    events:
+      - http:
+          path: trips/{tripId}/append-task
+          method: put
+          cors: true
+          authorizer: aws_iam
   delete-trip:
     handler: for-trips.delete_function
     events:
@@ -118,7 +126,7 @@ functions:
     handler: for-cols.get
     events:
       - http:
-          path: cols/{colId}
+          path: cols/{tripId}/{colId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -126,7 +134,7 @@ functions:
     handler: for-cols.getall
     events:
       - http:
-          path: cols
+          path: cols/{tripId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -134,7 +142,15 @@ functions:
     handler: for-cols.update
     events:
       - http:
-          path: cols/{colId}
+          path: cols/{tripId}/{colId}
+          method: put
+          cors: true
+          authorizer: aws_iam
+  append-task-col:
+    handler: for-cols.append_task
+    events:
+      - http:
+          path: cols/{tripId}/{colId}/append-task
           method: put
           cors: true
           authorizer: aws_iam
@@ -142,7 +158,7 @@ functions:
     handler: for-cols.delete_function
     events:
       - http:
-          path: cols/{colId}
+          path: cols/{tripId}/{colId}
           method: delete
           cors: true
           authorizer: aws_iam
@@ -167,7 +183,7 @@ functions:
     handler: for-tasks.get
     events:
       - http:
-          path: tasks/{taskId}
+          path: tasks/{tripId}/{taskId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -175,7 +191,7 @@ functions:
     handler: for-tasks.getall
     events:
       - http:
-          path: tasks
+          path: tasks/{tripId}
           method: get
           cors: true
           authorizer: aws_iam
@@ -183,7 +199,7 @@ functions:
     handler: for-tasks.update
     events:
       - http:
-          path: tasks/{taskId}
+          path: tasks/{tripId}/{taskId}
           method: put
           cors: true
           authorizer: aws_iam
@@ -191,7 +207,7 @@ functions:
     handler: for-tasks.delete_function
     events:
       - http:
-          path: tasks/{taskId}
+          path: tasks/{tripId}/{taskId}
           method: delete
           cors: true
           authorizer: aws_iam

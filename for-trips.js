@@ -22,6 +22,7 @@ export async function create(event, context) {
       tripNotes: data.tripNotes,
       colIds: data.colIds,
       wishlistIds: data.wishlistIds,
+      taskIds: data.taskIds,
       createdAt: Date.now()
     }
   };
@@ -42,7 +43,7 @@ export async function update(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       tripId: event.pathParameters.tripId
     },
-    UpdateExpression: "SET tripName = :tripName, tripStartDate = :tripStartDate, tripEndDate = :tripEndDate, tripStartTime = :tripStartTime, tripEndTime = :tripEndTime, tripLocation = :tripLocation, tripNotes = :tripNotes, colIds = :colIds, wishlistIds = :wishlistIds",
+    UpdateExpression: "SET tripName = :tripName, tripStartDate = :tripStartDate, tripEndDate = :tripEndDate, tripStartTime = :tripStartTime, tripEndTime = :tripEndTime, tripLocation = :tripLocation, tripNotes = :tripNotes, colIds = :colIds, wishlistIds = :wishlistIds, taskIds = :taskIds",
     ExpressionAttributeValues: {
       ":tripName": data.tripName || null,
       ":tripStartDate": data.tripStartDate || null,
@@ -52,7 +53,8 @@ export async function update(event, context) {
       ":tripLocation": data.tripLocation || null,
       ":tripNotes": data.tripNotes || null,
       ":colIds": data.colIds || null,
-      ":wishlistIds": data.wishlistIds || null
+      ":wishlistIds": data.wishlistIds || null,
+      ":taskIds": data.taskIds || null,
     },
     ReturnValues: "ALL_NEW"
   };
@@ -64,6 +66,32 @@ export async function update(event, context) {
     return failure({ status: false, error: e });
   }
 }
+
+
+export async function append_task(event, context) {
+  const data = JSON.parse(event.body);
+  const params = {
+    TableName: process.env.tripsTableName,
+    Key: {
+      userId: event.requestContext.identity.cognitoIdentityId,
+      tripId: event.pathParameters.tripId
+      },
+    UpdateExpression: "SET taskIds = list_append(if_not_exists(taskIds, :empty_list), :taskId)",
+    ExpressionAttributeValues: {
+      ':taskId': [data.taskId],
+      ':empty_list': []
+    },
+    ReturnValues: "ALL_NEW"
+  };
+
+  try {
+    await dynamoDbLib.call("update", params);
+    return success({ status: true });
+  } catch (e) {
+    return failure({ status: false, error: e });
+  }
+}
+
 
 export async function get(event, context) {
   const params = {
@@ -86,6 +114,7 @@ export async function get(event, context) {
     return failure({ status: false, error: e });
   }
 }
+
 
 export async function getall(event, context) {
     const params = {
