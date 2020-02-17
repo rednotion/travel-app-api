@@ -123,7 +123,7 @@ export async function getall(event, context) {
         TableName: process.env.colsTableName,
         KeyConditionExpression: "tripId = :tripId",
         ExpressionAttributeValues: {
-            ":tripId": event.pathParameters.tripId,,
+            ":tripId": event.pathParameters.tripId,
         }
     };
 
