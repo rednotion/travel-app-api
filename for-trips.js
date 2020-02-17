@@ -1,6 +1,6 @@
 import uuid from "uuid";
 import * as dynamoDbLib from "./libs/dynamodb-lib";
-import { success, failure } from "./libs/, error: eresponse-lib";
+import { success, failure } from "./libs/response-lib";
 
 export async function create(event, context) {
   // We are also using the async/await pattern here to refactor our Lambda function.
