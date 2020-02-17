@@ -46,9 +46,8 @@ export async function update(event, context) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET tripId = :tripId, colName = :colName, colType = :colType, taskIds = :taskIds, colStartTime = :colStartTime, colEndTime = :colEndTime, colNotes = :colNotes, colLodging = :colLodging",
+    UpdateExpression: "SET colName = :colName, colType = :colType, taskIds = :taskIds, colStartTime = :colStartTime, colEndTime = :colEndTime, colNotes = :colNotes, colLodging = :colLodging",
     ExpressionAttributeValues: {
-      ":tripId": data.tripId || null,
       ":colName": data.colName || null,
       ":colType": data.colType || null,
       ":taskIds": data.taskIds || null,
