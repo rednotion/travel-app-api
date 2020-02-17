@@ -35,7 +35,7 @@ export async function create(event, context) {
 export async function update(event, context) {
   const data = JSON.parse(event.body);
   const params = {
-    TableName: process.env.tasksTableName,
+    TableName: process.env.colsTableName,
     // 'Key' defines the partition key and sort key of the item to be retrieved
     // - 'userId': Identity Pool identity id of the authenticated user
     // - 'noteId': path parameter
