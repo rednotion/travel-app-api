@@ -3,34 +3,23 @@ import * as dynamoDbLib from "./libs/dynamodb-lib";
 import { success, failure } from "./libs/response-lib";
 
 export async function create(event, context) {
-  // We are also using the async/await pattern here to refactor our Lambda function.
-  // This allows us to return once we are done processing; instead of using the callback function.
-  // Request body is passed in as a JSON encoded string in 'event.body'
   const data = JSON.parse(event.body);
 
   const params = {
     TableName: process.env.colsTableName,
-    // 'Item' contains the attributes of the item to be created
-    // - 'userId': user identities are federated through the
-    //             Cognito Identity Pool, we will use the identity id
-    //             as the user id of the authenticated user
-    // - 'noteId': a unique uuid
-    // - 'content': parsed from request body
-    // - 'attachment': parsed from request body
-    // - 'createdAt': current Unix timestamp
     Item: {
       userId: event.requestContext.identity.cognitoIdentityId,
       colId: uuid.v1(),
       // Let us not differentiate between WISHLIST and COLUMN now
       // when we create the days, we can return the UUID of each column iteratively
       // and then add it to the 'create-trip' API body
-      type: data.type,
-      name: data.name,
-      startTime: data.startTime,
-      endTime: data.endTime,
+      colType: data.colType,
+      colName: data.colName,
+      colStartTime: data.colStartTime,
+      colEndTime: data.colEndTime,
       taskIds: data.taskIds,
-      notes: data.notes,
-      lodging: data.lodging,
+      colNotes: data.colNotes,
+      colLodging: data.colLodging,
       createdAt: Date.now()
     }
   };
@@ -39,7 +28,7 @@ export async function create(event, context) {
     await dynamoDbLib.call("put", params);
     return success(params.Item);
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false, error: e  });
   }
 }
 
@@ -56,15 +45,15 @@ export async function update(event, context) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET name = :name, type = :type, taskIds = :taskIds, startTime = :startTime, endTime = :endTime, notes = :notes, lodging = :lodging",
+    UpdateExpression: "SET colName = :colName, colType = :colType, taskIds = :taskIds, colStartTime = :colStartTime, colEndTime = :colEndTime, colNotes = :colNotes, colLodging = :colLodging",
     ExpressionAttributeValues: {
-      ":name": data.name || null,
-      ":type": data.type || null,
+      ":colName": data.colName || null,
+      ":colType": data.colType || null,
       ":taskIds": data.taskIds || null,
-      ":startTime": data.startTime || null,
-      ":endTime": data.endTime || null,
-      ":notes": data.notes || null,
-      ":lodging": data.lodging || null,
+      ":colStartTime": data.colStartTime || null,
+      ":colEndTime": data.colEndTime || null,
+      ":colNotes": data.colNotes || null,
+      ":colLodging": data.colLodging || null,
     },
     // 'ReturnValues' specifies if and how to return the item's attributes,
     // where ALL_NEW returns all attributes of the item after the update; you
@@ -76,16 +65,13 @@ export async function update(event, context) {
     await dynamoDbLib.call("update", params);
     return success({ status: true });
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false, error: e });
   }
 }
 
 export async function get(event, context) {
   const params = {
     TableName: process.env.colsTableName,
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    // - 'userId': Identity Pool identity id of the authenticated user
-    // - 'noteId': path parameter
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
       colId: event.pathParameters.colId
@@ -101,19 +87,13 @@ export async function get(event, context) {
       return failure({ status: false, error: "Item not found." });
     }
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false, error: e  });
   }
 }
 
 export async function getall(event, context) {
     const params = {
         TableName: process.env.colsTableName,
-        // 'KeyConditionExpression' defines the condition for the query
-        // - 'userId = :userId': only return items with matching 'userId'
-        //   partition key
-        // 'ExpressionAttributeValues' defines the value in the condition
-        // - ':userId': defines 'userId' to be Identity Pool identity id
-        //   of the authenticated user
         KeyConditionExpression: "userId = :userId",
         ExpressionAttributeValues: {
             ":userId": event.requestContext.identity.cognitoIdentityId
@@ -128,7 +108,7 @@ export async function getall(event, context) {
             return failure({ status: false, error: "User not found." });
         }
     } catch (e) {
-        return failure({ status: false });
+        return failure({ status: false, error: e  });
     }
 }
 
@@ -136,9 +116,6 @@ export async function getall(event, context) {
 export async function delete_function(event, context) {
   const params = {
     TableName: process.env.colsTableName,
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    // - 'userId': Identity Pool identity id of the authenticated user
-    // - 'noteId': path parameter
     Key: {
       userId: event.requestContext.identity.cognitoIdentityId,
       colId: event.pathParameters.colId
@@ -149,6 +126,6 @@ export async function delete_function(event, context) {
     await dynamoDbLib.call("delete", params);
     return success({ status: true });
   } catch (e) {
-    return failure({ status: false });
+    return failure({ status: false, error: e  });
   }
 }
