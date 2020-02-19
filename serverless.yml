@@ -172,7 +172,7 @@ functions:
           cors: true
           authorizer: aws_iam
   create-task-drive:
-    handler: for-tasks.drive
+    handler: for-tasks.create_drive
     events:
       - http:
           path: tasks/drive
