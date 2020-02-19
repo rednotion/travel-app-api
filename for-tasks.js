@@ -16,6 +16,7 @@ export async function create_location(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "location",
       taskName: data.taskName,
+      taskGooglePlaceId: data.taskGooglePlaceId,
       taskDuration: data.taskDuration,
       taskNotes: data.taskNotes,
       taskAttachment: data.taskAttachment,
@@ -43,6 +44,7 @@ export async function create_drive(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "drive",
       taskName: data.taskName,
+      taskGooglePlaceId: null,
       taskDuration: data.taskDuration,
       taskNotes: null,
       taskAttachment: null,
@@ -69,10 +71,11 @@ export async function update(event, context) {
     },
     // 'UpdateExpression' defines the attributes to be updated
     // 'ExpressionAttributeValues' defines the value in the update expression
-    UpdateExpression: "SET taskName = :taskName, taskType = :taskType, taskDuration = :taskDuration, taskNotes = :taskNotes, taskAttachment = :taskAttachment",
+    UpdateExpression: "SET taskName = :taskName, taskType = :taskType, taskDuration = :taskDuration, taskGooglePlaceId = :taskGooglePlaceId, taskNotes = :taskNotes, taskAttachment = :taskAttachment",
     ExpressionAttributeValues: {
       ":taskName": data.taskName,
       ":taskType": data.taskType,
+      ":taskGooglePlaceId": data.taskGooglePlaceId,
       ":taskDuration": data.taskDuration,
       ":taskNotes": data.taskNotes,
       ":taskAttachment": data.taskAttachment,

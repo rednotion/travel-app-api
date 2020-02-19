@@ -19,6 +19,7 @@ export async function create(event, context) {
       tripEndDate: data.tripEndDate,
       tripEndTime: data.tripEndTime,
       tripLocation: data.tripLocation,
+      tripGooglePlaceId: data.tripGooglePlaceId,
       tripNotes: data.tripNotes,
       colIds: data.colIds,
       wishlistIds: data.wishlistIds,
@@ -43,11 +44,12 @@ export async function update(event, context) {
       userId: event.requestContext.identity.cognitoIdentityId,
       tripId: event.pathParameters.tripId
     },
-    UpdateExpression: "SET tripName = :tripName, tripStartDate = :tripStartDate, tripEndDate = :tripEndDate, tripStartTime = :tripStartTime, tripEndTime = :tripEndTime, tripLocation = :tripLocation, tripNotes = :tripNotes, colIds = :colIds, wishlistIds = :wishlistIds, taskIds = :taskIds",
+    UpdateExpression: "SET tripName = :tripName, tripStartDate = :tripStartDate, tripEndDate = :tripEndDate, tripStartTime = :tripStartTime, tripEndTime = :tripEndTime, tripLocation = :tripLocation, tripNotes = :tripNotes, colIds = :colIds, wishlistIds = :wishlistIds, taskIds = :taskIds, tripGooglePlaceId = :tripGooglePlaceId",
     ExpressionAttributeValues: {
       ":tripName": data.tripName || null,
       ":tripStartDate": data.tripStartDate || null,
       ":tripStartTime": data.tripStartTime || null,
+      ":tripGooglePlaceId": data.tripGooglePlaceId || null,
       ":tripEndDate": data.tripEndDate || null,
       ":tripEndTime": data.tripEndTime || null,
       ":tripLocation": data.tripLocation || null,
