@@ -42,7 +42,7 @@ export async function create_drive(event, context) {
       taskId: "drive_"+ uuid.v1(), // all created places will be NON-drives
       userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "drive",
-      taskName: null,
+      taskName: data.taskName,
       taskDuration: data.taskDuration,
       taskNotes: null,
       taskAttachment: null,
