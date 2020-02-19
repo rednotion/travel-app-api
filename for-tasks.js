@@ -38,7 +38,7 @@ export async function create_drive(event, context) {
   const params = {
     TableName: process.env.tasksTableName,
     Item: {
-      tripId: "tripId",
+      tripId: data.tripId,
       taskId: "drive_"+ uuid.v1(), // all created places will be NON-drives
       userId: event.requestContext.identity.cognitoIdentityId,
       taskType: "drive",
